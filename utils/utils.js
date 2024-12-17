@@ -6,3 +6,4 @@ export function busy(milliseconds) {
         }
     }
 }
+export const DIAGONAL = 0.7071067811865475;

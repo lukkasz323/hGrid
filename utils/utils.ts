@@ -6,3 +6,5 @@ export function busy(milliseconds) {
       }
     }
   }
+
+export const DIAGONAL: number = 0.7071067811865475;

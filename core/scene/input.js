@@ -1,5 +1,3 @@
-import { directionVector2 } from "../../utils/vector2.js";
-import { Projectile } from "./projectile.js";
 export class Input {
     canvas;
     scene;
@@ -31,11 +29,6 @@ export class Input {
         // this.worldOrigin = {x: this.screenOrigin.x + this.scene.camera.origin.x, y: this.screenOrigin.y + this.scene.camera.origin.y};
     }
     #onMouseDown(e) {
-        // Shooting
-        const shot = new Projectile(this.scene.player.entity.origin, 50);
-        shot.entity.velocity = directionVector2(this.scene.player.entity.origin, this.mouseOrigin);
-        this.scene.projectiles.push(shot);
-        this.scene.active.push(shot.entity);
     }
     #onMouseUp(e) {
     }
