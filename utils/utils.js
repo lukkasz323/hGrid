@@ -6,4 +6,7 @@ export function busy(milliseconds) {
         }
     }
 }
+export function degreesToRadians(degrees) {
+    return degrees * (Math.PI / 180);
+}
 export const DIAGONAL = 0.7071067811865475;

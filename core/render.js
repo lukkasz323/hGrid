@@ -1,3 +1,4 @@
+import { degreesToRadians } from "../utils/utils.js";
 export function renderGame(scene, canvas) {
     const ctx = canvas.getContext("2d");
     renderBackground(ctx, canvas);
@@ -39,4 +40,14 @@ function renderGrid(ctx, scene, canvas) {
             ctx.strokeRect(margin + x * tileWidth, margin + y * tileHeight, tileWidth, tileHeight);
         }
     }
+    renderShape(ctx, 128, 128, 64, 6, 90, 1.15);
+}
+function renderShape(ctx, x, y, radius, vertices, rotation = 0, scaleX = 1, scaleY = 1) {
+    const angle = Math.PI * 2 / vertices;
+    ctx.beginPath();
+    const rotationRadians = degreesToRadians(rotation);
+    for (let i = 0; i <= vertices; i++) {
+        ctx.lineTo(x + radius * Math.cos(i * angle + rotationRadians) * scaleX, y + radius * Math.sin(i * angle + rotationRadians) * scaleY);
+    }
+    ctx.stroke();
 }

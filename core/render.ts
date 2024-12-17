@@ -1,3 +1,4 @@
+import { degreesToRadians } from "../utils/utils.js";
 import { Scene } from "./scene/scene.js";
 
 export function renderGame(scene: Scene, canvas: HTMLCanvasElement) {
@@ -46,4 +47,19 @@ function renderGrid(ctx: CanvasRenderingContext2D, scene: Scene, canvas: HTMLCan
             ctx.strokeRect(margin + x * tileWidth, margin + y * tileHeight, tileWidth, tileHeight);
         }
     }
+
+    renderShape(ctx, 128, 128, 64, 6, 90, 1.15);
+}
+
+function renderShape(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number, vertices: number, rotation: number = 0, scaleX: number = 1, scaleY: number = 1) {
+    const angle = Math.PI * 2 / vertices;
+    ctx.beginPath();
+    const rotationRadians = degreesToRadians(rotation);
+    for (let i = 0; i <= vertices; i++) {
+        ctx.lineTo(
+            x + radius * Math.cos(i * angle + rotationRadians) * scaleX, 
+            y + radius * Math.sin(i * angle + rotationRadians) * scaleY
+        );
+    }
+    ctx.stroke();
 }
