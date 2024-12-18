@@ -35,30 +35,61 @@ function renderBackground(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasEleme
 }
 
 function renderGrid(ctx: CanvasRenderingContext2D, scene: Scene, canvas: HTMLCanvasElement) {
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 1;
-    const margin = 128;
-    const width = canvas.width - margin * 2; // ex. 384 = 640 - 256
-    const height = canvas.height - margin * 2;
-    const tileWidth = width / scene.grid.width; // ex. 64 = 384 / 6
-    const tileHeight = height / scene.grid.height;
-    for (let y = 0; y < scene.grid.height; y++) {
-        for (let x = 0; x < scene.grid.width; x++) {
-            ctx.strokeRect(margin + x * tileWidth, margin + y * tileHeight, tileWidth, tileHeight);
+    // Square grid
+    // ctx.strokeStyle = "black";
+    // ctx.lineWidth = 1;
+    // const margin = 128;
+    // const width = canvas.width - margin * 2; // ex. 384 = 640 - 256
+    // const height = canvas.height - margin * 2;
+    // const tileWidth = width / scene.grid.width; // ex. 64 = 384 / 6
+    // const tileHeight = height / scene.grid.height;
+    // for (let y = 0; y < scene.grid.height; y++) {
+    //     for (let x = 0; x < scene.grid.width; x++) {
+    //         ctx.strokeRect(margin + x * tileWidth, margin + y * tileHeight, tileWidth, tileHeight);
+    //     }
+    // }
+
+    // Hexagonal grid
+    const color = "red";
+    const gridOffset = 128;
+    const canvasAvgSize = (canvas.width + canvas.height) / 2;
+    const radius = canvasAvgSize / 10;
+
+    let totalOffsetY = 0;
+    for (let y = 0; y < 4; y++) {
+        let offsetX = 0;
+        let offsetY = 0;
+        if (y % 2 === 1) {
+            offsetX = radius;
+            offsetY = radius / 2;
+            totalOffsetY -= radius
+        }
+        for (let x = 0; x < 3; x++) {
+            renderShape(
+                ctx, 
+                color, 
+                gridOffset + x * radius * 2 + offsetX, 
+                gridOffset + y * radius * 2 + offsetY + totalOffsetY, 
+                radius,
+                6, 
+                90, 
+                1.15, 
+            );
         }
     }
-
-    renderShape(ctx, 128, 128, 64, 6, 90, 1.15);
 }
 
-function renderShape(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number, vertices: number, rotation: number = 0, scaleX: number = 1, scaleY: number = 1) {
+function renderShape(ctx: CanvasRenderingContext2D, color: string, x: number, y: number, radius: number, vertices: number, rotation: number = 0, scaleX: number = 1, scaleY: number = 1) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+
     const angle = Math.PI * 2 / vertices;
     ctx.beginPath();
     const rotationRadians = degreesToRadians(rotation);
     for (let i = 0; i <= vertices; i++) {
         ctx.lineTo(
-            x + radius * Math.cos(i * angle + rotationRadians) * scaleX, 
-            y + radius * Math.sin(i * angle + rotationRadians) * scaleY
+            x + radius * Math.cos((i * angle) + rotationRadians) * scaleX, 
+            y + radius * Math.sin((i * angle) + rotationRadians) * scaleY
         );
     }
     ctx.stroke();
